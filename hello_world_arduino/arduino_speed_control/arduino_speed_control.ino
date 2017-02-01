@@ -35,19 +35,22 @@ void setup() {
   pinMode(motor_current_left, INPUT);
   pinMode(motor_current_right, INPUT);
   digitalWrite(motor_break_left,LOW);
-  analogWrite(motor_speed_left,50);
+
+  //playground
+  Serial.begin(9600);
+  
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  int motor_speed = 0;
 
-  if(digitalRead(encoder_left))
+  while(true)
   {
-    digitalWrite(LED,HIGH);
-  }
-  else
-  {
-    digitalWrite(LED,LOW);
+    analogWrite(motor_speed_left,motor_speed);
+    motor_speed += directionOfChange(1,digitalRead(encoder_left));
+    Serial.print(motor_speed);
+    Serial.write("\n");
   }
 }
 
