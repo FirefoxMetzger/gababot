@@ -35,5 +35,5 @@
 #define MOTOR_B_BREAK 8
 #define MOTOR_B_CURRENT_SENSING A1
 
-#define ENCODER_A 6
-#define ENCODER_B 5
+#define ENCODER_A 5
+#define ENCODER_B 6
