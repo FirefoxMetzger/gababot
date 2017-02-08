@@ -8,15 +8,22 @@ namespace SOFT561
 {
 	namespace arduino
 	{
+		enum Direction
+		{
+			backward,
+			forward,
+			suspend
+		};
+	
 		class Motor
 		{
 			private:
 				struct ports
 				{
-					const int direction;
-					const int speed;
-					const int brake;
-					const int current;
+					 int direction;
+					 int speed;
+					 int brake;
+					 int current;
 				} ports;
 				float speed;
 				bool forward;
@@ -35,18 +42,11 @@ namespace SOFT561
 				
 				void setDirection
 				(
-					Direction direction
+					Direction dir
 				);
 				Direction getDirection();
 				void setSpeed();
 		};
-		
-		typedef enum
-		{
-			backward = 0,
-			forward,
-			suspend
-		} Direction;
 	}
 }
 #endif

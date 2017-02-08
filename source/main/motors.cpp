@@ -7,23 +7,17 @@ namespace SOFT561
 {
 	namespace arduino
 	{
-		Motor::Motor
+		Motor::Motor:forward{0}
+	//  speed{0},
+	//  forward{true},
+	//  suspend{true},
 		(	
 			const int direction_port, 
 			const int speed_port, 
 			const int suspend_port, 
 			const int current_port
 		)
-		{
-			this.ports.direction = direction_port;
-			this.ports.speed = speed_port;
-			this.ports.suspend = suspend_port;
-			this.ports.current = current_port;
-			
-			this.speed = 0;
-			this.suspend = true;
-			this.forward = true;
-			
+		{			
 			pinMode(this.pins.direction, OUTPUT);
 			pinMode(this.pins.speed, OUTPUT);
 			pinMode(this.pins.suspend, OUTPUT);
@@ -61,6 +55,22 @@ namespace SOFT561
 					this.suspend = true;
 					
 					digitalWrite(this.pins.suspend, HIGH);
+			}
+		}
+		
+		Direction Motor::getDirection()
+		{
+			if (this.suspend)
+			{
+				return suspend;
+			}
+			else if (this.forward)
+			{
+				return forward;
+			}
+			else 
+			{
+				return backward;
 			}
 		}
 	}
