@@ -7,21 +7,26 @@ namespace SOFT561
 {
 	namespace arduino
 	{
-		Motor::Motor:forward{0}
-	//  speed{0},
-	//  forward{true},
-	//  suspend{true},
+    Motor::Ports::Ports(int a, int b, int c, int d):
+    direction(a),
+    speed(b),
+    suspend(c),
+    current(d)
+    {};
+  
+	  Motor::Motor
 		(	
 			const int direction_port, 
 			const int speed_port, 
 			const int suspend_port, 
 			const int current_port
-		)
-		{			
-			pinMode(this.pins.direction, OUTPUT);
-			pinMode(this.pins.speed, OUTPUT);
-			pinMode(this.pins.suspend, OUTPUT);
-			pinMode(this.pins.current, INPUT);
+		):
+   _speed(0)
+		{		
+			pinMode(this->_ports->direction, OUTPUT);
+			pinMode(this->_ports->speed, OUTPUT);
+			pinMode(this->_ports->suspend, OUTPUT);
+			pinMode(this->_ports->current, INPUT);
 		}
 		
 		float Motor::getCurrentReading()
@@ -38,33 +43,33 @@ namespace SOFT561
 			switch(direction)
 			{
 				case forward : 
-					this.suspend = false;
-					this.forward = true;
+					this->_suspend = false;
+					this->_forward = true;
 					
-					digitalWrite(this.pins.direction, HIGH);
-					digitalWrite(this.pins.suspend, LOW);
+					digitalWrite(this->_ports->direction, HIGH);
+					digitalWrite(this->_ports->suspend, LOW);
 			
 				case backward :
-					this.suspend = false;
-					this.forward = false;
+					this->_suspend = false;
+					this->_forward = false;
 					
-					digitalWrite(this.pins.direction, HIGH);
-					digitalWrite(this.pins.suspend, LOW);
+					digitalWrite(this->_ports->direction, HIGH);
+					digitalWrite(this->_ports->suspend, LOW);
 				
 				case suspend :
-					this.suspend = true;
+					this->_suspend = true;
 					
-					digitalWrite(this.pins.suspend, HIGH);
+					digitalWrite(this->_ports->suspend, HIGH);
 			}
 		}
 		
 		Direction Motor::getDirection()
 		{
-			if (this.suspend)
+			if (this->_suspend)
 			{
 				return suspend;
 			}
-			else if (this.forward)
+			else if (this->_forward)
 			{
 				return forward;
 			}

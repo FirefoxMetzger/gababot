@@ -17,17 +17,20 @@ namespace SOFT561
 	
 		class Motor
 		{
+      struct Ports
+        {
+          Ports(int a, int b, int c, int d);
+           int direction;
+           int speed;
+           int suspend;
+           int current;
+        };
+    
 			private:
-				struct ports
-				{
-					 int direction;
-					 int speed;
-					 int brake;
-					 int current;
-				} ports;
-				float speed;
-				bool forward;
-				bool suspend;
+				Ports* _ports;
+				float _speed;
+				bool _forward;
+				bool _suspend;
 			
 			public:
 				Motor
