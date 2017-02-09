@@ -1,27 +1,47 @@
+#include "arduino.h"
 #include "initio.h"
+#include "motor.h"
 
 void setup()
 {
-  //configure the motor pins
-  pinMode(MOTOR_A_DIRECTION,OUTPUT);
-  pinMode(MOTOR_A_PWM,OUTPUT);
-  pinMode(MOTOR_A_BREAK,OUTPUT);
-  pinMode(MOTOR_A_CURRENT_SENSING,INPUT);
+  pinMode(LED, OUTPUT);  
+}
 
-  pinMode(MOTOR_B_DIRECTION,OUTPUT);
-  pinMode(MOTOR_B_PWM,OUTPUT);
-  pinMode(MOTOR_B_BREAK,OUTPUT);
-  pinMode(MOTOR_B_CURRENT_SENSING,INPUT);
+void whatever()
+{
 
-  digitalWrite(MOTOR_A_DIRECTION,HIGH);
-  digitalWrite(MOTOR_A_BREAK,LOW);
-  analogWrite(MOTOR_A_PWM,100);
 }
 
 void loop()
 {
-  delay(1000);
-  digitalWrite(MOTOR_A_DIRECTION,LOW);
-  delay(1000);
-  digitalWrite(MOTOR_A_DIRECTION,HIGH);
+  SOFT561::Arduino::Motor* motor_A = new SOFT561::Arduino::Motor(MOTOR_A_DIRECTION,MOTOR_A_PWM, MOTOR_A_BREAK, MOTOR_A_CURRENT_SENSING);
+  SOFT561::Arduino::Motor* motor_B = new SOFT561::Arduino::Motor(MOTOR_B_DIRECTION,MOTOR_B_PWM, MOTOR_B_BREAK, MOTOR_B_CURRENT_SENSING);
+  
+  motor_A->setDirection(SOFT561::Arduino::forward);
+  motor_B->setDirection(SOFT561::Arduino::forward);
+
+  motor_A->setSpeed(100);
+  motor_B->setSpeed(-100);
+
+  delay(2000);
+  
+  int speed_counter = 0;
+  int speed_inc = 1;
+  
+  while(true)
+  {
+//    motor_A->setSpeed(speed_counter);
+//    motor_B->setSpeed(-speed_counter);
+//    
+//    if (speed_counter > 255 || speed_counter < 0)
+//    {
+//      speed_inc *= -1;
+//    }
+//    speed_counter += speed_inc;
+
+//    digitalWrite(LED, HIGH);
+    delay(500);
+//    digitalWrite(LED, LOW);
+    delay(500);
+  }  
 }
