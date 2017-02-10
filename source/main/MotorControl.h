@@ -11,20 +11,26 @@ namespace SOFT561
     class MotorControl
     {
       private:
-        bool shared_objects;
-        Motor _motor;
-        Encoder _encoder;
+        const bool _shared_objects;
+        Motor* _motor;
+        Encoder* _encoder;
         int _target_speed;
         int _current_speed;
         
       public:
-        MotorControl();
-        MotorControl(Motor motor, Encoder encoder);
+        MotorControl
+        (
+          const int motor_direction, 
+          const int motor_speed, 
+          const int motor_suspend, 
+          const int motor_current, 
+          const int encoder_signal
+        );
+        MotorControl(Motor& motor, Encoder& encoder);
         ~MotorControl();
 
         void update();
         void setSpeed(int speed);
-        void setDirection(Direction direction);
 
         int getSpeed();
         
