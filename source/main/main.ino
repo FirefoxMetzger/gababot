@@ -1,6 +1,7 @@
 #include "arduino.h"
 #include "initio.h"
 #include "motor.h"
+#include "MotorControl.h"
 
 void setup()
 {
