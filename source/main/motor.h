@@ -20,13 +20,13 @@ class Motor
   private:
     const struct Ports
     {
-      Ports(int direction, int speed, int suspend, int current);
+      Ports(const int direction, const int speed, const int suspend, const int current);
       const int direction;
       const int speed;
       const int suspend;
       const int current;
     }* _ports;
-    float _speed;
+    int _speed;
     bool _forward;
     bool _suspend;
 
@@ -48,6 +48,8 @@ class Motor
     );
     Direction getDirection();
     void setSpeed(int speed);
+
+    int getSpeed();
 };
 }
 }

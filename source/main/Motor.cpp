@@ -99,6 +99,12 @@ Direction Motor::getDirection()
 void Motor::setSpeed(int speed)
 {
   analogWrite(this->_ports->speed, speed);
+  this->_speed = speed;
+}
+
+int Motor::getSpeed()
+{
+  return this->_speed;
 }
 
 }
