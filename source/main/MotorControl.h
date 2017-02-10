@@ -26,7 +26,7 @@ namespace SOFT561
           const int motor_current, 
           const int encoder_signal
         );
-        MotorControl(Motor& motor, Encoder& encoder);
+        MotorControl(Motor* motor, Encoder* encoder);
         ~MotorControl();
 
         void update();

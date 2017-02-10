@@ -21,15 +21,51 @@ MotorControl::MotorControl
 
 MotorControl::MotorControl
 (
-  Motor& motor,
-  Encoder& encoder
+  Motor* motor,
+  Encoder* encoder
 ):
   _shared_objects(true),
   _motor(motor),
   _encoder(encoder),
   _target_speed(0),
-  _current_speed(motor.getSpeed())
+  _current_speed(motor->getSpeed())
 {}
+
+MotorControl::~MotorControl()
+{
+  this->_motor->setSpeed(0);  
+  if(!this->_shared_objects)
+  {
+    delete this->_motor;
+    delete this->_encoder;
+  }
+}
+
+void MotorControl::update()
+{
+  int signal = this->_encoder->getSignal();
+  this->_motor->setSpeed(this->_targetSpeed);
+  //TODO: adjust motor speed based on sensor readings
+}
+
+void MotorControl::setSpeed(int speed)
+{
+  this->_target_speed = speed;
+  
+  if (speed > 0)
+  {
+    this->_motor->setDirection(forward);
+  }
+  else if (speed == 0)
+  {
+    this->_motor->setDirection(suspend);
+  }
+  else
+  {
+    this->_motor->setDirection(backward);
+  }
+}
+
 }
 }
 
