@@ -6,23 +6,23 @@
 
 namespace SOFT561
 {
-	namespace Arduino
-	{
-		class Encoder
-		{
-			private:
-				const struct Ports
-				{
-          Ports();
-					const int signal;
-				} _ports;
-			
-			public:
-				Encoder(int signal_port);
-       ~Encoder();
-				
-				bool getSignal();
-		};
-	}
+namespace Arduino
+{
+class Encoder
+{
+  private:
+    const struct Ports
+    {
+      Ports(const int signal);
+      const int signal;
+    } *_ports;
+
+  public:
+    Encoder(const int signal_port);
+    ~Encoder();
+
+    int getSignal();
+};
+}
 }
 #endif
