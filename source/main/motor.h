@@ -10,9 +10,9 @@ namespace Arduino
 {
 enum Direction
 {
-  backward=0,
-  forward=1,
-  suspend=2
+  backward,
+  forward,
+  suspend
 };
 
 class Motor

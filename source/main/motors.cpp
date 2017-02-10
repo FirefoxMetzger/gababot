@@ -61,7 +61,9 @@ void Motor::setDirection
 
       digitalWrite(this->_ports->direction, HIGH);
       digitalWrite(this->_ports->suspend, LOW);
-//      digitalWrite(13,LOW);
+      digitalWrite(13,LOW);
+
+      break;
 
     case backward :
       this->_suspend = false;
@@ -69,13 +71,12 @@ void Motor::setDirection
 
       digitalWrite(this->_ports->direction, HIGH);
       digitalWrite(this->_ports->suspend, LOW);
-//      digitalWrite(13,LOW);
+      break;
 
     case suspend :
       this->_suspend = true;
 
       digitalWrite(this->_ports->suspend, HIGH);
-      digitalWrite(13,LOW);
   }
 }
 
