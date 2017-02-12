@@ -1,3 +1,7 @@
+#include "Arduino.h"
+#include "Encoder.h"
+#include "Motor.h"
+
 #include "MotorControl.h"
 
 namespace SOFT561
@@ -44,7 +48,7 @@ MotorControl::~MotorControl()
 void MotorControl::update()
 {
   int signal = this->_encoder->getSignal();
-  this->_motor->setSpeed(this->_targetSpeed);
+  this->_motor->setSpeed(this->_target_speed);
   //TODO: adjust motor speed based on sensor readings
 }
 
