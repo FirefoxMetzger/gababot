@@ -54,7 +54,7 @@ void MotorControl::update()
 
 void MotorControl::setSpeed(int speed)
 {
-  this->_target_speed = speed;
+  this->_target_speed = abs(speed);
   
   if (speed > 0)
   {
