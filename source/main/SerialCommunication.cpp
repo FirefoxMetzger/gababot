@@ -3,6 +3,7 @@
 
 #include "SerialCommunication.h"
 
+
 namespace SOFT561
 {
 namespace Arduino
@@ -29,14 +30,55 @@ SerialMessage SerialCommunication::pop()
 
 void SerialCommunication::update()
 {
-  int msg = Serial.read();
-  msg -= 48;
-  this->_in_message = static_cast<SerialMessage>(msg);
-  
-  Serial.print(this->_out_message);
-  Serial.print("\r\n");
-  this->_out_message = none;
+  if(Serial.available() >= 1)
+  {
+    SerialMessage msg = this->convertMessage(Serial.read());
+    if(msg != none)
+    {
+      this->_in_message = msg;
+    }
+  }
+  else
+  {
+    this->_in_message = none;
+  }
+
+  if(this->_out_message != none)
+  {
+    Serial.print(this->_out_message);
+    Serial.print("\r\n");
+    this->_out_message = none;
+  }
 }
+
+SerialMessage SerialCommunication::convertMessage(int msg) const
+{
+  if(msg < static_cast<int>(none))
+  {
+    return none;
+  }
+  
+  if(msg > static_cast<int>(right)) 
+  {
+    return none;
+  }
+
+  SerialMessage return_value = static_cast<SerialMessage>(msg);
+  switch(static_cast<SerialMessage>(msg))
+  {
+    case none:
+    case up:
+    case down:
+    case left:
+    case right:
+      break;
+    default:
+      return none;
+  }
+  
+  return return_value;
+}
+
 }
 }
 

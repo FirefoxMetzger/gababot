@@ -20,6 +20,8 @@ namespace SOFT561
       private:
         SerialMessage _in_message;
         SerialMessage _out_message;
+
+        SerialMessage convertMessage(int msg) const;
         
       public:
         SerialCommunication(int baud);
