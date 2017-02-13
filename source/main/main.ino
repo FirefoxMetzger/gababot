@@ -20,6 +20,8 @@ void loop()
   Encoder* encoder_A = new Encoder(ENCODER_A);
   Encoder* encoder_B = new Encoder(ENCODER_B);
 
+  // for some reason one motor's cables are wrong. I have to ask Torbjorn how to best fix this
+
   MotorControl* driver_A = new MotorControl(motor_A, encoder_A);
   MotorControl* driver_B = new MotorControl(motor_B, encoder_B);
 
@@ -27,31 +29,32 @@ void loop()
 
   while (true)
   {
-    SerialMessage foo = com->pop();
-    com->push(foo);
+    SerialMessage msg = com->pop();
 
-    switch(foo)
+    switch(msg)
     {
-      up:
-        driver_A->setSpeed(200);
-        driver_B->setSpeed(200);
-        break;
-      down:
-        driver_A->setSpeed(-200);
-        driver_B->setSpeed(-200);
-        break;
-      left:
+      case up:
         driver_A->setSpeed(200);
         driver_B->setSpeed(-200);
         break;
-      right:
+      case down:
         driver_A->setSpeed(-200);
         driver_B->setSpeed(200);
         break;
-      none:
+      case left:
+        driver_A->setSpeed(-200);
+        driver_B->setSpeed(-200);
+        break;
+      case right:
+        driver_A->setSpeed(200);
+        driver_B->setSpeed(200);
+        break;
+      case none:
         driver_A->setSpeed(0);
         driver_B->setSpeed(0);
         break;
+      default:
+        Serial.println("This should never happen.");
     }
 
 
@@ -61,6 +64,6 @@ void loop()
     driver_B->update();
 
     //random delay
-    delay(500);
+    delay(100);
   }
 }
