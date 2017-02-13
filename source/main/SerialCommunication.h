@@ -5,10 +5,10 @@ namespace SOFT561
   {
     enum SerialMessage {
       none=0,
-      up=1,
-      down=2,
-      left=3,
-      right=4
+      up=119,
+      down=115,
+      left=97,
+      right=100
     };
 
     enum BaudRates {

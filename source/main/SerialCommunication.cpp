@@ -30,6 +30,7 @@ SerialMessage SerialCommunication::pop()
 
 void SerialCommunication::update()
 {
+  //read message
   if(Serial.available() >= 1)
   {
     SerialMessage msg = this->convertMessage(Serial.read());
@@ -43,8 +44,10 @@ void SerialCommunication::update()
     this->_in_message = none;
   }
 
+  //write message
   if(this->_out_message != none)
   {
+    
     Serial.print(this->_out_message);
     Serial.print("\r\n");
     this->_out_message = none;
@@ -58,11 +61,11 @@ SerialMessage SerialCommunication::convertMessage(int msg) const
     return none;
   }
   
-  if(msg > static_cast<int>(right)) 
+  if(msg > static_cast<int>(up)) 
   {
     return none;
   }
-
+  
   SerialMessage return_value = static_cast<SerialMessage>(msg);
   switch(static_cast<SerialMessage>(msg))
   {
