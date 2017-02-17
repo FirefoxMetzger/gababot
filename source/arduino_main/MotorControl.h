@@ -1,6 +1,5 @@
-
-#include "motor.h"
-#include "encoder.h"
+#include "Motor.h"
+#include "Encoder.h"
 
 #ifndef SOFT651_Arduino_MotorControl
 #define SOFT651_Arduino_MotorControl

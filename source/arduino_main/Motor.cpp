@@ -1,7 +1,6 @@
+#include <Arduino.h>
 
-#include <arduino.h>
-
-#include "motor.h"
+#include "Motor.h"
 
 namespace SOFT561
 {

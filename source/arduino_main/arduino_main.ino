@@ -1,7 +1,7 @@
-#include "arduino.h"
+#include "Arduino.h"
 #include "initio.h"
-#include "motor.h"
-#include "encoder.h"
+#include "Motor.h"
+#include "Encoder.h"
 #include "MotorControl.h"
 #include "SerialCommunication.h"
 

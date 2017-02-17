@@ -1,6 +1,5 @@
-#include <arduino.h>
-
-#include "encoder.h"
+#include "Arduino.h"
+#include "Encoder.h"
 
 namespace SOFT561
 {
