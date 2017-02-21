@@ -1,7 +1,6 @@
+#include <Arduino.h>
 
-#include <arduino.h>
-
-#include "motor.h"
+#include "Motor.h"
 
 namespace SOFT561
 {
@@ -23,19 +22,13 @@ Motor::Motor
 ):
   _ports(new Motor::Ports(direction_port,speed_port,suspend_port,current_port)),
   _speed(0),
-  _forward(false),
+  _forward(true),
   _suspend(true)
 {
   pinMode(this->_ports->direction, OUTPUT);
   pinMode(this->_ports->speed, OUTPUT);
   pinMode(this->_ports->suspend, OUTPUT);
   pinMode(this->_ports->current, INPUT);
-
-  this->setDirection(forward);
-  pinMode(speed_port,100);
-
-  pinMode(13,OUTPUT);
-  digitalWrite(13,HIGH);
 }
 
 Motor::~Motor()
@@ -61,15 +54,13 @@ void Motor::setDirection
 
       digitalWrite(this->_ports->direction, HIGH);
       digitalWrite(this->_ports->suspend, LOW);
-      digitalWrite(13,LOW);
-
       break;
 
     case backward :
       this->_suspend = false;
       this->_forward = false;
 
-      digitalWrite(this->_ports->direction, HIGH);
+      digitalWrite(this->_ports->direction, LOW);
       digitalWrite(this->_ports->suspend, LOW);
       break;
 
@@ -98,6 +89,7 @@ Direction Motor::getDirection()
 
 void Motor::setSpeed(int speed)
 {
+  if (speed >= 0 && speed <= 255)
   analogWrite(this->_ports->speed, speed);
   this->_speed = speed;
 }

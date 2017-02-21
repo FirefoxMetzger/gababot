@@ -1,4 +1,6 @@
 #include "Arduino.h"
+#include "math.h"
+
 #include "Encoder.h"
 #include "Motor.h"
 
