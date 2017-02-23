@@ -1,0 +1,3 @@
+Header header
+Key[] key
+String locale
