@@ -2,7 +2,7 @@
 <html>
 <body>
 	<p>HEADDER</p>
-	<p id="test" onclick="clickMe();"></p>
+	<p id="test"></p>
 	<script>
 		document.getElementById("test").innerHTML = "This is a test.";
 		
@@ -12,9 +12,12 @@
 			e = e || event; // to deal with IE
 			map[e.keyCode] = e.type == 'keydown';
 			/* insert conditional here */
-			document.getElementById("test").innerHTML = "The pressed button was: " + e.code;
 			
-			console.log(map)
+		}
+		
+		function sendROS()
+		{
+		
 		}
 	</script>
 	<p>Footer</p>
