@@ -1,69 +1,60 @@
+#include <ros.h>
+#include <ArduinoHardware.h>
+#include <geometry_msgs/Twist.h>
 #include "Arduino.h"
+
 #include "initio.h"
 #include "Motor.h"
 #include "Encoder.h"
 #include "MotorControl.h"
-#include "SerialCommunication.h"
+#include "MovingBase.h"
 
 using namespace SOFT561::Arduino;
 
+Motor* motor_A;
+Motor* motor_B;
+Encoder* encoder_A;
+Encoder* encoder_B;
+MotorControl* driver_A;
+MotorControl* driver_B;
+MovingBase* base;
+
+void lambdaCallback(const geometry_msgs::Twist& move_cmd)
+{
+ base->cmdVelCallback(move_cmd);
+}
+
+ros::NodeHandle nh;
+ros::Subscriber<geometry_msgs::Twist> sub("/turtle1/cmd_vel", &lambdaCallback);
+
 void setup()
 {
-  pinMode(LED, OUTPUT);
+	motor_A = new Motor(
+			MOTOR_A_DIRECTION, 
+			MOTOR_A_PWM, 
+			MOTOR_A_BREAK, 
+			MOTOR_A_CURRENT_SENSING);
+	motor_B = new Motor(
+			MOTOR_B_DIRECTION, 
+			MOTOR_B_PWM, 
+			MOTOR_B_BREAK, 
+			MOTOR_B_CURRENT_SENSING);
+	encoder_A = new Encoder(ENCODER_A);
+	encoder_B = new Encoder(ENCODER_B);
+	driver_A = new MotorControl(motor_A, encoder_A);
+	driver_B = new MotorControl(motor_B, encoder_B);
+	base = new MovingBase(driver_A,driver_B);
+
+	nh.initNode();
+	nh.subscribe(sub);
+  
+	pinMode(LED, OUTPUT);
 }
 
 void loop()
 {
-  //initialize all classes here. in setup they are out of scope and global is bad
-  Motor* motor_A = new Motor(MOTOR_A_DIRECTION, MOTOR_A_PWM, MOTOR_A_BREAK, MOTOR_A_CURRENT_SENSING);
-  Motor* motor_B = new Motor(MOTOR_B_DIRECTION, MOTOR_B_PWM, MOTOR_B_BREAK, MOTOR_B_CURRENT_SENSING);
-  Encoder* encoder_A = new Encoder(ENCODER_A);
-  Encoder* encoder_B = new Encoder(ENCODER_B);
-
-  // for some reason one motor's cables are wrong. I have to ask Torbjorn how to best fix this
-
-  MotorControl* driver_A = new MotorControl(motor_A, encoder_A);
-  MotorControl* driver_B = new MotorControl(motor_B, encoder_B);
-
-  SerialCommunication* com = new SerialCommunication(9600);
-
-  while (true)
-  {
-    SerialMessage msg = com->pop();
-
-    switch(msg)
-    {
-      case up:
-        driver_A->setSpeed(200);
-        driver_B->setSpeed(-200);
-        break;
-      case down:
-        driver_A->setSpeed(-200);
-        driver_B->setSpeed(200);
-        break;
-      case left:
-        driver_A->setSpeed(-200);
-        driver_B->setSpeed(-200);
-        break;
-      case right:
-        driver_A->setSpeed(200);
-        driver_B->setSpeed(200);
-        break;
-      case none:
-        driver_A->setSpeed(0);
-        driver_B->setSpeed(0);
-        break;
-      default:
-        Serial.println("This should never happen.");
-    }
-
-
     //update all devices
-    com->update();
+    nh.spinOnce();
     driver_A->update();
     driver_B->update();
-
-    //random delay
-    delay(100);
-  }
 }
