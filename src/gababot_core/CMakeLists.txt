@@ -8,7 +8,6 @@ find_package(catkin REQUIRED COMPONENTS
   rosserial_arduino
   rosserial_client
   geometry_msgs
-  nav_msgs
 )
 
 ## System dependencies are found with CMake's conventions
