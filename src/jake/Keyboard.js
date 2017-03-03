@@ -54,18 +54,13 @@ class KeyboardState
 		return {exists:false};
 	}
 
-	assertKeys(key1,key2)
-	{
+	assertKeys(key1,key2) {
 		// technically I have to check both ways
 		// however I know that I pass in the class attribute as
 		// a second value, this I can save one loop
-		for(value property in key2)
+		for(property in key2.getOwnPropertyNames())
 		{
-			if 
-			(
-				key1.hasOwnProperty(property) &&
-				key2.hasOwnProperty(property)
-			)
+			if( key1.hasOwnProperty(property) )
 			{
 				if(key1.property !== key2.property) 
 				{
