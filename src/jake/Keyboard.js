@@ -2,17 +2,17 @@ class KeyboardState
 {
 	constructor()
 	{
-		this.seq = Date.now();
+		this.seq = Math.round(Date.now());
 		this.last_pressed_idx = -1;
 		this.keydown_length = 0;
 		this.keydown = [];	
 	}
 
-	keydown(key)
+	addKey(key)
 	{
-		var key_tester = this.inList(key);
-		this.seq = Date.now();
+		this.seq = Math.round(Date.now());
 
+		var key_tester = this.inList(key);
 		if (key_tester.exists)
 		{
 			this.last_pressed_idx = key_tester.idx;
@@ -25,7 +25,7 @@ class KeyboardState
 		}
 	}
 
-	keyup(key)
+	removeKey(key)
 	{
 		var key_tester = this.inList(key);
 		if (key_tester.exists)
@@ -43,7 +43,7 @@ class KeyboardState
 	{
 		for (var i = 0; i < this.keydown_length; ++i)
 		{
-			if(assertKey(key,this.keydown[i]))
+			if(this.assertKey(key,this.keydown[i]))
 			{
 				return {
 					exists:true,
@@ -54,20 +54,37 @@ class KeyboardState
 		return {exists:false};
 	}
 
-	assertKeys(key1,key2) {
+	assertKey(key1,key2)
+   	{
 		// technically I have to check both ways
 		// however I know that I pass in the class attribute as
 		// a second value, this I can save one loop
-		for(property in key2.getOwnPropertyNames())
+		if (key1.code === key2.code)
 		{
-			if( key1.hasOwnProperty(property) )
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		//below assert is not working --- why? --- low priority
+		for(var property in key2)
+		{
+			if (!key2.hasOwnProperty(property))
 			{
-				if(key1.property !== key2.property) 
-				{
-					return false;
-				}
+				continue;
+			}
+			else if ( !key1.hasOwnProperty(property) )
+			{
+				return false;
+			}
+			else if (key1[property] !== key2[property])
+			{
+				document.write('not matching: '+property);
+				return false;
 			}
 		}
+		document.write("matching")
 		return true;
 	}
 }

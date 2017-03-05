@@ -8,7 +8,6 @@
 <script type="text/javascript" src="Keyboard.js"></script>
 
 <script type="text/javascript" type="text/javascript">
-/*
 var rosBridge = new ROSLIB.Ros
 ({
     url : 'ws://localhost:9090'
@@ -38,25 +37,40 @@ rosBridge.on
 	()=>{bridgeStatus("<p>Connection to websocket server closed.</p>");}
 );
 
-// These lines create a topic object as defined by roslibjs
 var keyboard_topic = new ROSLIB.Topic({
-    ros : rosBridge,
-    name : 'keyboard',
-    messageType : 'jake/Keyboard'
+ros : rosBridge,
+name : '/keyboard',
+messageType : '/jake/Keyboard'
 });
 
 //var keyboard_message = new ROSLIB.MESSAGE
-*/
-//feedb.innerHTML = JSON.stringify({a:4,b:5});
 </script>
 </head>
 
 <body>
 <div id="test"></div>
+<div id="feedback"></div>
 <script type="text/javascript" type="text/javascript">
 document.getElementById("test").innerHTML = JSON.stringify("Hello World");
 var keyboard_state = new KeyboardState();
+var key = {code:"KeyQ",key:"Q",location:0};
 document.getElementById("test").innerHTML = JSON.stringify(keyboard_state);
+onkeydown = function(e) 
+{
+	e = e || event;
+	keyboard_state.addKey(e);
+	document.getElementById("test").innerHTML = JSON.stringify(keyboard_state);
+
+	var keyboard_message = new ROSLIB.Message(keyboard_state);
+	keyboard_topic.publish(keyboard_message);
+}
+
+onkeyup = function(e)
+{
+	e = e || event;
+	keyboard_state.removeKey(e);
+	document.getElementById("test").innerHTML = JSON.stringify(keyboard_state);
+}
 </script>
 </body>
 </html>
