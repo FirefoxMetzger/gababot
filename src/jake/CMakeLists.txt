@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(jake)
 
 add_definitions(-std=c++11)
+set( CMAKE_EXPORT_COMPILE_COMMANDS 1 )
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
@@ -44,7 +45,12 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(${PROJECT_NAME}_twist key_twist.cpp)
+add_executable(
+	${PROJECT_NAME}_twist 
+	key_twist.cpp
+	TwistKeyboardCallback.cpp
+	TwistKeyboardCallback.h
+)
 
 
 ## Add cmake target dependencies of the executable
@@ -55,7 +61,6 @@ add_dependencies(${PROJECT_NAME}_twist ${${PROJECT_NAME}_EXPORTED_TARGETS} ${cat
 target_link_libraries(${PROJECT_NAME}_twist
   ${catkin_LIBRARIES}
 )
-Message(STATUS "${catkin_LIBRARIES}")
 
 #############
 ## Install ##
