@@ -1,4 +1,0 @@
-bool has_modifier
-String code
-String key
-int8 location
