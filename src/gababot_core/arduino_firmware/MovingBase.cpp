@@ -23,8 +23,8 @@ MovingBase::~MovingBase(){}
 void MovingBase::cmdVelCallback(const geometry_msgs::Twist& move_cmd)
 {
 	const float l = 0.2;	
-	const float omega = 1000*move_cmd.angular.z;
-	const float x = 80*move_cmd.linear.x;
+	const float omega = move_cmd.angular.z;
+	const float x = move_cmd.linear.x;
 
 	const float v_r = x + (omega * l)/2;
 	const float v_l = x - (omega * l)/2;

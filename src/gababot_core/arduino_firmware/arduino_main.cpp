@@ -25,7 +25,7 @@ void lambdaCallback(const geometry_msgs::Twist& move_cmd)
 }
 
 ros::NodeHandle nh;
-ros::Subscriber<geometry_msgs::Twist> sub("/turtle1/cmd_vel", &lambdaCallback);
+ros::Subscriber<geometry_msgs::Twist> sub("/cmd_vel", &lambdaCallback);
 
 void setup()
 {
