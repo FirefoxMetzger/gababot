@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 
 #include "TwistKeyboardCallback.h"
 #include "jake/Keyboard.h"
@@ -20,7 +21,25 @@ TwistKeyboardCallback::TwistKeyboardCallback(ros::NodeHandle ns)
 		&TwistKeyboardCallback::keyboardCallback, 
 		this
 	);
+	double direction[] = {250,0,0,0,0,0};
+	double direction2[] = {-250,0,0,0,0,0};
+	double direction3[] = {0,0,0,0,0,2500};
+	double direction4[] = {0,0,0,0,0,-2500};
+	TwistKeyboardCallback::Direction* foo = new TwistKeyboardCallback::Direction(direction);
+	foo->addKey("w");
+	this->_directions.push_back(foo);
 
+	foo = new TwistKeyboardCallback::Direction(direction2);
+	foo->addKey("s");
+	this->_directions.push_back(foo);
+	
+	foo = new TwistKeyboardCallback::Direction(direction4);
+	foo->addKey("a");
+	this->_directions.push_back(foo);
+	
+	foo = new TwistKeyboardCallback::Direction(direction3);
+	foo->addKey("d");
+	this->_directions.push_back(foo);
 }
 
 TwistKeyboardCallback::~TwistKeyboardCallback()
@@ -84,7 +103,7 @@ void TwistKeyboardCallback::_addKeyToDirection(double* dir,
 
 // implementation of subclass
 
-void TwistKeyboardCallback::Direction::addValueToMessage( geometry_msgs::Twist msg)
+void TwistKeyboardCallback::Direction::addValueToMessage( geometry_msgs::Twist &msg)
 {
 	msg.linear.x += this->_value[0];
 	msg.linear.y += this->_value[1];
@@ -98,9 +117,11 @@ TwistKeyboardCallback::Direction::Direction
 (
 	double* value
 ):
-	_value(value)
+	_value(new double[6])
 {
-
+	for(auto idx = 0; idx < 6; ++idx) {
+		this->_value[idx] = value[idx];
+}
 }
 
 double* TwistKeyboardCallback::Direction::getValue()

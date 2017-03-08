@@ -29,7 +29,7 @@ class TwistKeyboardCallback {
 			public:
 				double* getValue();
 				bool keyPressed(jake::Key key);
-				void addValueToMessage(geometry_msgs::Twist msg);
+				void addValueToMessage(geometry_msgs::Twist &msg);
 
 				void addKey(std::string key);
 				bool compareArray(double* in_array);
