@@ -11,26 +11,45 @@ namespace SOFT561 {
 namespace JAKE{
 
 class TwistKeyboardCallback {
+	enum TWIST_DIRECTION
+	{
+		LINEAR_X=0,
+		LINEAR_Y=1,
+		LINEAR_Z=2,
+		ANGULAR_X=3,
+		ANGULAR_Y=4,
+		ANGULAR_Z=5
+	};
+	private:
+		class Direction {
+			private:
+				double* _value;
+				std::vector<std::string> key_binds;
+
+			public:
+				double* getValue();
+				bool keyPressed(jake::Key key);
+				void addValueToMessage(geometry_msgs::Twist msg);
+
+				void addKey(std::string key);
+				bool compareArray(double* in_array);
+
+				Direction(double* value);
+				~Direction();
+		};
+
+
 	private:
 		ros::NodeHandle _ns;
 		ros::Publisher _pub;
 		ros::Subscriber _sub;
-		geometry_msgs::Twist _current_velocity;
-		 
-		struct {
-			struct Vector3
-			{
-				std::vector<std::string> x;
-				std::vector<std::string> y;
-				std::vector<std::string> z;
-			};
-			Vector3 linear_positive;
-			Vector3 linear_negative;
-			Vector3 angular_positive;
-			Vector3 angular_negative;
-		} _key_binding;
+		
+		std::vector<Direction*> _directions;
+		jake::Keyboard _last_message;
 
-		bool _hasBindingMatch(std::vector<std::string> bindings, const jake::Key key);		
+		geometry_msgs::Twist _getTwistMsg();
+		void _addKeyToDirection(double* dir,
+				std::string key);
 
 	public:
 		TwistKeyboardCallback(ros::NodeHandle ns);

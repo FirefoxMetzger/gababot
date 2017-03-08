@@ -2,6 +2,7 @@
 #include "geometry_msgs/Twist.h"
 
 #include <vector>
+#include <string>
 
 #include "TwistKeyboardCallback.h"
 #include "jake/Keyboard.h"
@@ -13,20 +14,13 @@ TwistKeyboardCallback::TwistKeyboardCallback(ros::NodeHandle ns)
 {
 	this->_ns = ns;
 	this->_pub = this->_ns.advertise<geometry_msgs::Twist>("cmd_vel",1000);	
-	this->_sub = ns.subscribe("keyboard",1000, &TwistKeyboardCallback::keyboardCallback, this);
+	this->_sub = ns.subscribe
+	(
+		"keyboard",1000, 
+		&TwistKeyboardCallback::keyboardCallback, 
+		this
+	);
 
-	this->_key_binding.linear_positive.x.push_back("W");
-	this->_key_binding.linear_positive.x.push_back("w");
-	this->_key_binding.linear_negative.x.push_back("s");
-	this->_key_binding.angular_positive.z.push_back("d");
-	this->_key_binding.angular_negative.z.push_back("a");
-
-    this->_current_velocity.linear.x = 0;
-	this->_current_velocity.linear.y = 0;
-	this->_current_velocity.linear.z = 0;
-	this->_current_velocity.angular.x = 0;
-	this->_current_velocity.angular.y = 0;
-	this->_current_velocity.angular.z = 0;    
 }
 
 TwistKeyboardCallback::~TwistKeyboardCallback()
@@ -34,13 +28,89 @@ TwistKeyboardCallback::~TwistKeyboardCallback()
 
 }
 
-bool TwistKeyboardCallback::_hasBindingMatch
-(
-	std::vector<std::string> bindings, 
-	const jake::Key key
-)
+
+void TwistKeyboardCallback::keyboardCallback(const jake::Keyboard msg) 
 {
-	for(auto symbol : bindings)
+	this->_last_message = msg;
+}
+
+void TwistKeyboardCallback::publishTwist()
+{
+	this->_pub.publish(this->_getTwistMsg());
+}
+
+// private functions
+
+geometry_msgs::Twist TwistKeyboardCallback::_getTwistMsg()
+{
+	geometry_msgs::Twist msg;
+
+	msg.linear.x = 0;
+	msg.linear.y = 0;
+	msg.linear.z = 0;
+	msg.angular.x = 0;
+	msg.angular.y = 0;
+	msg.angular.z = 0;
+
+	for (auto key : this->_last_message.keydown)
+	{
+		for ( auto dir : this->_directions)
+		{
+			if ( dir->keyPressed(key) ) 
+			{
+				dir->addValueToMessage(msg);
+			}
+		}
+	}
+
+	return msg;
+}
+
+void TwistKeyboardCallback::_addKeyToDirection(double* dir,
+		std::string key)
+{
+	for( auto direction : this->_directions )
+	{
+		if ( direction->compareArray(dir))
+		{
+			direction->addKey(key);
+		}
+	}
+	TwistKeyboardCallback::Direction *new_direction = 
+		new TwistKeyboardCallback::Direction(dir);
+	new_direction->addKey(key);
+	this->_directions.push_back(new_direction);
+}
+
+// implementation of subclass
+
+void TwistKeyboardCallback::Direction::addValueToMessage( geometry_msgs::Twist msg)
+{
+	msg.linear.x += this->_value[0];
+	msg.linear.y += this->_value[1];
+	msg.linear.z += this->_value[2];
+	msg.angular.x += this->_value[3];
+	msg.angular.y += this->_value[4];
+	msg.angular.z += this->_value[5];
+}
+
+TwistKeyboardCallback::Direction::Direction
+(
+	double* value
+):
+	_value(value)
+{
+
+}
+
+double* TwistKeyboardCallback::Direction::getValue()
+{
+	return this->_value;
+}
+
+bool TwistKeyboardCallback::Direction::keyPressed(jake::Key key)
+{
+	for(auto symbol : this->key_binds)
 	{
 		if
 		(
@@ -54,32 +124,19 @@ bool TwistKeyboardCallback::_hasBindingMatch
 	return false;
 }
 
-void TwistKeyboardCallback::keyboardCallback(const jake::Keyboard msg) 
+void TwistKeyboardCallback::Direction::addKey(std::string key)
 {
-	for(int idx = 0; idx < msg.keydown_length; ++idx)
-	{
-		jake::Key current_key = msg.keydown[idx];
-		if (this->_hasBindingMatch(this->_key_binding.linear_positive.x, current_key))
-		{
-			this->_current_velocity.linear.x += 1;
-		}
-		else if (this->_hasBindingMatch(this->_key_binding.linear_negative.x, current_key))
-		{
-			this->_current_velocity.linear.x -= 1;
-		}
-		else if (this->_hasBindingMatch(this->_key_binding.angular_positive.z, current_key))
-		{
-			this->_current_velocity.angular.z += 1;
-		}
-		else if (this->_hasBindingMatch(this->_key_binding.angular_negative.z, current_key))
-		{
-			this->_current_velocity.angular.z -= 1;
-		}
-
-	}
+	this->key_binds.push_back(key);	
 }
 
-void TwistKeyboardCallback::publishTwist()
+bool TwistKeyboardCallback::Direction::compareArray(double* in_array)
 {
-	this->_pub.publish(this->_current_velocity);
+	for(auto idx = 1; idx < 6; ++idx)
+	{
+		if(this->_value[idx] != in_array[idx])
+		{
+			return false;
+		}
+	}
+	return true;
 }
