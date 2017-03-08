@@ -5,8 +5,8 @@ __pycache__/
 *$py.class
 
 ### gitignore for vim (local .vimrc)
-.vimrc
-.swp
+*.vimrc
+*.swp
 
 ### ignore catkin generated files and folders 
 build 
