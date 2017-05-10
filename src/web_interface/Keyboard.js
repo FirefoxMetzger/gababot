@@ -2,37 +2,29 @@
 // Email: sebastian@wallkoetter.net
 // License: MIT
 
-// assume JQuery is loaded by index.html (it is indeed)
-// include Key (a single key in all currently pressed keys)
-$.getScript("Key.js", function(data, textStatus, jqxhr) {
-    console.log( data ); // Data returned
-    console.log( textStatus ); // Success
-    console.log( jqxhr.status ); // 200
-    console.log( "Load was performed." );
-})
+// This file depends on the class defined in:
+// - Key.js
+// (it is included in index.html -- because browsers don't yet support import)
 
 // A class to represent ROS Keyboard messages
 // roslibjs converts JSON messages into ROS messages. This fact can be exploited
 // by implementing a JS class of the same structure as the ROS keyboard message.
 // This class can have nice methods making it easy to add / remove keys and
 // can then be serialized into JSON and turned into a ROS message
-class KeyboardState
+function KeyboardState()
 {
     //mimic ros message structure
     // @seq -- a timestamp
     // @keydown_length -- how many keys are pressed
     // @keydown -- a array of Key() objects, one for each currently pressed key
-	constructor()
-	{
-		this.seq = Math.round(Date.now());
-		this.last_pressed_idx = -1;
-		this.keydown_length = 0;
-		this.keydown = [];	
-	}
+	this.seq = Math.round(Date.now());
+	this.last_pressed_idx = -1;
+	this.keydown_length = 0;
+	this.keydown = [];	
 
     // add a key to the list of currently pressed keys
     // @key -- the key to add
-	addKey(key)
+	this.addKey = function(key)
 	{
 		this.seq = Math.round(Date.now());
 
@@ -52,7 +44,7 @@ class KeyboardState
     // remove a key from the list of currently pressed keys
     // if the key is not in the list, do nothing
     // @key -- the key to remove
-	removeKey(key)
+	this.removeKey = function(key)
 	{
 		var key_tester = this.inList(key);
 		if (key_tester.exists)
@@ -68,7 +60,7 @@ class KeyboardState
 
     // check if a key is in the list of currently pressed keys
     // @key -- the key to check existance of
-	inList(key)
+	this.inList = function(key)
 	{
 		for (var i = 0; i < this.keydown_length; ++i)
 		{
@@ -89,7 +81,7 @@ class KeyboardState
     
     // Technically this could be an method of Key() to compare something against
     // itself. Maybe move this around later (TODO low priority).
-	assertKey(key1,key2)
+	this.assertKey = function(key1,key2)
    	{
 		// technically I have to check both ways
 		// however I know that I pass in the class attribute as
