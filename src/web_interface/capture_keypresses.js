@@ -28,8 +28,8 @@ onkeydown = function(e)
 	keyboard_state.addKey(e);
 	document.getElementById("currently_pressed_string").innerHTML = JSON.stringify(keyboard_state);
 
-	//var keyboard_message = new ROSLIB.Message(keyboard_state);
-	//keyboard_topic.publish(keyboard_message);
+	var keyboard_message = new ROSLIB.Message(keyboard_state);
+	keyboard_topic.publish(keyboard_message);
 }
 
 // register callback on key up (remove key from currently pressed keys)

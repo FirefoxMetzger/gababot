@@ -14,19 +14,28 @@
     <!-- Style Sheet of the Page -->
     <link rel="stylesheet" href="index.css">
     
-    <!-- JavaScript Includes -->
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <!-- JavaScript Includes -->    
+    <script type="text/javascript" src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+    <script type="text/javascript" src="http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+
     <script type="text/javascript" src="Key.js"></script>
     <script type="text/javascript" src="Keyboard.js"></script>
-    
   </head>
   
   <body>
   
     <!-- The block managing the camera -->
     <div id="visual_display">
-        <canvas id="webcam"></canvas>
+        <img id="webcam"></img>
         <canvas id="SLAM"></canvas>
+    </div>
+    
+    <div id="bridge_status">
+        <div>
+            <div id="bridge_on_led" ></div>
+            <div id="bridge_on_text">ROSbridge connected</div>
+        </div>
+        <p id="bridge_on_error_message"></p>
     </div>
     
     <!-- Nice feedback of currently pressed buttons (TODO) -->
@@ -34,7 +43,9 @@
         <div id="currently_pressed_string"></div>
     </div>
     
-    <!-- Finally enable Keyboard Events -->
+    <!-- Load scripts that bring webpage to live -->
+    <script type="text/javascript" src="setup_ROS.js"></script>
+    <script type="text/javascript" src="webcam_image_callback.js"></script>
     <script type="text/javascript" src="capture_keypresses.js"></script>
   </body>
 </html>

@@ -1,3 +1,4 @@
+/* Webcam and SLAM display */
 #visual_display{
     padding-left: 0;
     padding-right: 0;
@@ -31,6 +32,35 @@
     height: 150px;
 }
 
+/* Keyboard visualization */
 #currently_pressed{
+
+}
+#currently_pressed_string{
+
+}
+
+
+/* ROSbridge feedback */
+#bridge_status{
+    position: absolute;
+    top:0
+}
+
+#bridge_on_led {
+    width: 15px;
+    height: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    background: red;
+    float:left;
+}
+#bridge_on_text {
+    float:left;
+    padding-left: 3px;
+    width: 200px;
+}
+#bridge_on_error_message {
 
 }
