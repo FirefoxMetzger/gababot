@@ -1,17 +1,40 @@
+<!--
+    Author: Sebastian Wallkötter
+    Email: sebastian@wallkoetter.net
+    License: MIT
+-->
+
 <!doctype html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Page Title</title>
+    <title>Gababot</title>
     <meta name="description" content="Webpage to interface with Gababot">
+    
+    <!-- Style Sheet of the Page -->
     <link rel="stylesheet" href="index.css">
+    
+    <!-- JavaScript Includes -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="Key.js"></script>
+    <script type="text/javascript" src="Keyboard.js"></script>
+    
   </head>
+  
   <body>
+  
+    <!-- The block managing the camera -->
     <div id="visual_display">
         <canvas id="webcam"></canvas>
         <canvas id="SLAM"></canvas>
     </div>
+    
+    <!-- Nice feedback of currently pressed buttons (TODO) -->
     <div id="currently_pressed">
+        <div id="currently_pressed_string"></div>
     </div>
+    
+    <!-- Finally enable Keyboard Events -->
+    <script type="text/javascript" src="capture_keypresses.js"></script>
   </body>
 </html>
