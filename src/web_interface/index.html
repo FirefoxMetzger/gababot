@@ -24,25 +24,29 @@
   
   <body>
   
-    <!-- The block managing the camera -->
-    <div id="visual_display">
-        <img id="webcam"></img>
-        <canvas id="SLAM"></canvas>
-    </div>
-    
-    <div id="bridge_status">
-        <div>
-            <div id="bridge_on_led" ></div>
-            <div id="bridge_on_text">ROSbridge connected</div>
+    <div id="screen">
+        <div id="feedback">
+            <div id="bridge_status">
+                <div id="connection_wrapper">
+                    <div id="bridge_on_led" ></div>
+                    <div id="bridge_on_text">ROSbridge connected</div>
+                </div>
+                <p id="bridge_on_error_message"></p>
+            </div>
+            
+            <!-- Nice feedback of currently pressed buttons (TODO) -->
+            <div id="currently_pressed">
+                <img id="button_img" src="images/AD.png"></img>
+                <div id="currently_pressed_string"></div>
+            </div>
         </div>
-        <p id="bridge_on_error_message"></p>
+        <!-- The block managing the camera -->
+        <div id="visual_display">
+            <img id="webcam"></img>
+            <canvas id="SLAM"></canvas>
+        </div>
     </div>
-    
-    <!-- Nice feedback of currently pressed buttons (TODO) -->
-    <div id="currently_pressed">
-        <div id="currently_pressed_string"></div>
-    </div>
-    
+
     <!-- Load scripts that bring webpage to live -->
     <script type="text/javascript" src="setup_ROS.js"></script>
     <script type="text/javascript" src="webcam_image_callback.js"></script>

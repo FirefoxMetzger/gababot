@@ -1,13 +1,5 @@
 /* Webcam and SLAM display */
-#visual_display{
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto; 
-    width: 800px;
-    height: 600px;
-    position:relative; 
-}
+
 
 #webcam {
     padding-left: 0;
@@ -32,19 +24,48 @@
     height: 150px;
 }
 
+/* general layout format */
+#screen{
+    width: 100%;
+    height: 100%;
+}
+
+#feedback{
+    float:right;
+    width: 28%;
+    height: 100%;
+    margin-left: 1%;
+    position: relative;
+}
+#visual_display{
+    width: 70%;
+    height: 100%;
+    height: 600px; 
+    float: right;
+    position:relative;
+}
+
 /* Keyboard visualization */
 #currently_pressed{
-
+    position: absolute;
+    top: 300px;
 }
 #currently_pressed_string{
-
+    top: 200px;
+    width: 288px;
+    word-wrap: break-word;
+}
+#button_img{
+    position: absolute;
+    top: 100px;
 }
 
 
 /* ROSbridge feedback */
 #bridge_status{
-    position: absolute;
-    top:0
+}
+#connection_wrapper{
+    width: 100%;
 }
 
 #bridge_on_led {
@@ -55,12 +76,11 @@
     border-radius: 15px;
     background: red;
     float:left;
+    margin-right: 2px;
 }
-#bridge_on_text {
-    float:left;
+#bridge_on_text {   
     padding-left: 3px;
-    width: 200px;
 }
 #bridge_on_error_message {
-
+    margin-top: 3px;
 }
