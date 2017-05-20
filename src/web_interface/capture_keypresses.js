@@ -65,7 +65,7 @@ onkeydown = function(e)
 {
 	e = e || event; // fencing against IE
 	keyboard_state.addKey(e);
-	document.getElementById("currently_pressed_string").innerHTML = JSON.stringify(keyboard_state);
+	//document.getElementById("currently_pressed_string").innerHTML = JSON.stringify(keyboard_state);
 	update_keyboard_image(keyboard_state);
 
 	var keyboard_message = new ROSLIB.Message(keyboard_state);
@@ -78,6 +78,6 @@ onkeyup = function(e)
 {
 	e = e || event;
 	keyboard_state.removeKey(e);
-	document.getElementById("currently_pressed_string").innerHTML = JSON.stringify(keyboard_state);
+	//document.getElementById("currently_pressed_string").innerHTML = JSON.stringify(keyboard_state);
 	update_keyboard_image(keyboard_state);
 }

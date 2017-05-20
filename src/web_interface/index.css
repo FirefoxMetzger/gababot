@@ -1,6 +1,10 @@
-/* Webcam and SLAM display */
+/*
+    Author: Sebastian Wallkötter
+    Email: sebastian@wallkoetter.net
+    License: MIT
+*/
 
-
+/* Webcam display */
 #webcam {
     padding-left: 0;
     padding-right: 0;
@@ -12,16 +16,14 @@
     background-color: blue;
 }
 
-#SLAM {
-    padding-left: 0;
-    padding-right: 0;
-    background-color: red;
-    border-style: solid;
-    position:absolute;
-    top: 0;
-    right:0;
-    width: 150px;
-    height: 150px;
+/* SLAM table */
+#SLAM{
+    margin: 0 auto;
+    display: inline-block;
+}
+.SLAM_VALUE{
+}
+.SLAM_LABEL{
 }
 
 /* general layout format */

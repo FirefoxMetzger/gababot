@@ -1,3 +1,6 @@
+// Author: Sebastian Wallkötter
+// Email: sebastian@wallkoetter.net
+// License: MIT
 
 //get handle to ROSBridge and define responses top opening / closing of the 
 //connection
@@ -43,4 +46,10 @@ var webcam_topic = new ROSLIB.Topic({
 ros : rosBridge,
 name : '/camera/image/compressed',
 messageType : 'sensor_msgs/CompressedImage'
+});
+
+var slam_pose_topic = new ROSLIB.Topic({
+ros : rosBridge,
+name : '/lsd_slam/pose',
+messageType : 'geometry_msgs/PoseStamped'
 });

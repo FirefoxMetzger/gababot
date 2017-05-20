@@ -17,14 +17,13 @@
     <!-- JavaScript Includes -->    
     <script type="text/javascript" src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
     <script type="text/javascript" src="http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
-
     <script type="text/javascript" src="Key.js"></script>
     <script type="text/javascript" src="Keyboard.js"></script>
   </head>
   
   <body>
-  
     <div id="screen">
+        <!-- Feedback column on the right -->
         <div id="feedback">
             <div id="bridge_status">
                 <div id="connection_wrapper">
@@ -34,16 +33,54 @@
                 <p id="bridge_on_error_message"></p>
             </div>
             
-            <!-- Nice feedback of currently pressed buttons (TODO) -->
+            <!-- SLAM Position -->
+            <div id="SLAM">
+                <table>
+                  <tr>
+                    <th>Position</th>
+                    <th>Value</th> 
+                  </tr>
+                  <tr>
+                    <td class="SLAM_LABEL">Pos. X</td>
+                    <td id="SLAM_pos_x" class="SLAM_VALUE">0</td>
+                  </tr>
+                  <tr>
+                    <td class="SLAM_LABEL">Pos. Y</td>
+                    <td id="SLAM_pos_y" class="SLAM_VALUE">0</td>
+                  </tr>
+                  <tr>
+                    <td class="SLAM_LABEL">Pos. Z</td>
+                    <td id="SLAM_pos_z" class="SLAM_VALUE">0</td>
+                  </tr>
+                  <tr>
+                    <td class="SLAM_LABEL">Rot. X</td>
+                    <td id="SLAM_rot_x" class="SLAM_VALUE">0</td>
+                  </tr>
+                  <tr>
+                    <td class="SLAM_LABEL">Rot. Y</td>
+                    <td id="SLAM_rot_y" class="SLAM_VALUE">0</td>
+                  </tr>
+                  <tr>
+                    <td class="SLAM_LABEL">Rot. Z</td>
+                    <td id="SLAM_rot_z" class="SLAM_VALUE">0</td>
+                  </tr>
+                  <tr>
+                    <td class="SLAM_LABEL">Rot. W</td>
+                    <td id="SLAM_rot_w" class="SLAM_VALUE">0</td>
+                  </tr>
+                </table>
+            </div>
+            
+            <!-- Currently pressed buttons -->
             <div id="currently_pressed">
-                <img id="button_img" src="images/AD.png"></img>
+                <img id="button_img" src="images/WASD_clear.png"></img>
                 <div id="currently_pressed_string"></div>
             </div>
         </div>
+        
         <!-- The block managing the camera -->
         <div id="visual_display">
             <img id="webcam"></img>
-            <canvas id="SLAM"></canvas>
         </div>
     </div>
 
@@ -51,5 +88,6 @@
     <script type="text/javascript" src="setup_ROS.js"></script>
     <script type="text/javascript" src="webcam_image_callback.js"></script>
     <script type="text/javascript" src="capture_keypresses.js"></script>
+    <script type="text/javascript" src="SLAM_position.js"></script>
   </body>
 </html>
