@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <map>
 
 #include "TwistKeyboardCallback.h"
 #include "jake/Keyboard.h"
@@ -14,10 +15,10 @@ using namespace SOFT561::JAKE;
 TwistKeyboardCallback::TwistKeyboardCallback(ros::NodeHandle ns) 
 {
 	this->_ns = ns;
-	this->_pub = this->_ns.advertise<geometry_msgs::Twist>("cmd_vel",1000);	
+        this->_pub = this->_ns.advertise<geometry_msgs::Twist>("/cmd_vel",1000);
 	this->_sub = ns.subscribe
 	(
-		"keyboard",1000, 
+                "/keyboard",1000,
 		&TwistKeyboardCallback::keyboardCallback, 
 		this
 	);
@@ -25,21 +26,43 @@ TwistKeyboardCallback::TwistKeyboardCallback(ros::NodeHandle ns)
 	double direction2[] = {-250,0,0,0,0,0};
 	double direction3[] = {0,0,0,0,0,2500};
 	double direction4[] = {0,0,0,0,0,-2500};
-	TwistKeyboardCallback::Direction* foo = new TwistKeyboardCallback::Direction(direction);
-	foo->addKey("w");
-	this->_directions.push_back(foo);
 
-	foo = new TwistKeyboardCallback::Direction(direction2);
-	foo->addKey("s");
-	this->_directions.push_back(foo);
-	
-	foo = new TwistKeyboardCallback::Direction(direction4);
-	foo->addKey("a");
-	this->_directions.push_back(foo);
-	
-	foo = new TwistKeyboardCallback::Direction(direction3);
-	foo->addKey("d");
-	this->_directions.push_back(foo);
+        std::vector<std::string> names;
+        if (ns.getParam("direction_names", names))
+        {
+            for(auto name : names)
+            {
+                bool success = true;
+                std::vector<double> direction_param = {};
+                success = ns.getParam(name + "_direction", direction_param);
+                if (!success)
+                {
+                    ROS_ERROR("Could not find _direction for a direction.");
+                    continue;
+                }
+                double* direction = &direction_param[0];
+                TwistKeyboardCallback::Direction* dir =
+                        new TwistKeyboardCallback::Direction(direction);
+
+                std::vector<std::string> keys;
+                success = ns.getParam(name + "_keys", keys);
+                if (!success)
+                {
+                    ROS_ERROR("Could not find _keys for a direction");
+                    continue;
+                }
+                for(auto k : keys)
+                {
+                    dir->addKey(k);
+                }
+
+                this->_directions.push_back(dir);
+            }
+        }
+        else
+        {
+          ROS_WARN("No Parameters Found");
+        }
 }
 
 TwistKeyboardCallback::~TwistKeyboardCallback()
@@ -147,7 +170,7 @@ bool TwistKeyboardCallback::Direction::keyPressed(jake::Key key)
 
 void TwistKeyboardCallback::Direction::addKey(std::string key)
 {
-	this->key_binds.push_back(key);	
+        this->key_binds.push_back(key);
 }
 
 bool TwistKeyboardCallback::Direction::compareArray(double* in_array)
