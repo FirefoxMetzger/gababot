@@ -57,4 +57,5 @@ void loop()
     nh.spinOnce();
     driver_A->update();
     driver_B->update();
+    base->updateWatchdog();
 }

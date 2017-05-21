@@ -15,6 +15,7 @@ class MovingBase
 	private:
 		MotorControl* _MotorA;
 		MotorControl* _MotorB;
+		int _watchdog_counter;
 
 	public:
 		MovingBase
@@ -25,6 +26,7 @@ class MovingBase
 		~MovingBase();
 
 		void cmdVelCallback(const geometry_msgs::Twist& move_cmd);
+		void updateWatchdog();
 };	
 }
 }
