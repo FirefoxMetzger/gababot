@@ -80,4 +80,7 @@ onkeyup = function(e)
 	keyboard_state.removeKey(e);
 	//document.getElementById("currently_pressed_string").innerHTML = JSON.stringify(keyboard_state);
 	update_keyboard_image(keyboard_state);
+	
+	var keyboard_message = new ROSLIB.Message(keyboard_state);
+	keyboard_topic.publish(keyboard_message);
 }
