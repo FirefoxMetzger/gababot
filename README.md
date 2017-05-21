@@ -11,23 +11,38 @@ and uses the following devices:
 * Arduino Uno
 * A laptop (for heavy computation and remote control)
 
-##Author
+This project offers a flexible and easy way to teleoperate the robot. In particular it allows convenient control via keyboard through a webbrowser, while forwarding a webcam stream obtained through the phone.
+Further, the project offers extensibility towards the ROS navigation stack as well as SLAM packages such as LSD-SLAM. The latter has been tested on the robot, yet remains in an experimental stage.
+
+Note: LSD-SLAM is licensed under GPL. Thus, it is not included in this distribution of software, to keep the code under MIT.
+
+## Author
 Sebastian Wallkoetter
 sebastian@wallkoetter.net
 
 ## Requirements
 
+
 ### Software
 * ROS Kinetic
-* Arduino IDE
-* 
+* apache2 (or equivalent)
 
 ### ROS Packages
+All these should be installable by apt
 * rosserial
+* rosbridge
+* cv_camera (or equivalent)
+* image_transport + compressed_image_transport
+
+(experimental LSD-SLAM)
+* image_proc
+* camera_calibration
+* LSD-SLAM
 
 ## Installation
 
+
 ## Folder Structure
-
-
-This also contains tutorials and 'hacks' done with any of the hardware parts given to us in SOFT561.
+This repository contains all packages written for this project.
+jake -- Just Another Keyboard Eventhandler. A flexible way to integrate a keyboard for teleoperation in ROS. It provides a Keyboard message, which can store currently pressed Key messages. __jake_twist__ is a conversion node. Listening for keypresses it converts them into twist messages and publishes them at 10Hz. It is fully customizable through the .launch file.
+website -- the website published by the webserver. Note: At the moment this does not offer any security, thus anybody could potentially steer the buggy.
