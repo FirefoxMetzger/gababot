@@ -1,3 +1,9 @@
+/*
+ * Author: Sebastian Wallkoetter
+ * Email: sebastian@wallkoetter.net
+ * License: MIT
+ */
+
 #include "Arduino.h"
 #include "math.h"
 
@@ -10,6 +16,8 @@ namespace SOFT561
 {
 namespace Arduino
 {
+
+// constructor from raw pin values
 MotorControl::MotorControl
 (
   const int motor_direction,
@@ -25,6 +33,7 @@ MotorControl::MotorControl
   _current_speed(0)
 {}
 
+// constructor from existing motor and encoder objects
 MotorControl::MotorControl
 (
   Motor* motor,
@@ -37,9 +46,13 @@ MotorControl::MotorControl
   _current_speed(motor->getSpeed())
 {}
 
+
 MotorControl::~MotorControl()
 {
-  this->_motor->setSpeed(0);  
+  // stop the motor
+  this->_motor->setSpeed(0);
+  
+  // if this class created objects make sure to destroy them
   if(!this->_shared_objects)
   {
     delete this->_motor;
@@ -47,17 +60,22 @@ MotorControl::~MotorControl()
   }
 }
 
+
 void MotorControl::update()
 {
   int signal = this->_encoder->getSignal();
-  this->_motor->setSpeed(this->_target_speed);
   //TODO: adjust motor speed based on sensor readings
+  
+  // update the motor speed
+  this->_motor->setSpeed(this->_target_speed);
 }
 
 void MotorControl::setSpeed(int speed)
 {
+  // set the speed value
   this->_target_speed = abs(speed);
   
+  // set the direction according to the sign of speed
   if (speed > 0)
   {
     this->_motor->setDirection(forward);

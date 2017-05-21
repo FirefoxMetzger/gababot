@@ -1,3 +1,9 @@
+/*
+ * Author: Sebastian Wallkoetter
+ * Email: sebastian@wallkoetter.net
+ * License: MIT
+ */
+
 #include <ros.h>
 #include <ArduinoHardware.h>
 #include <geometry_msgs/Twist.h>
@@ -9,8 +15,16 @@
 #include "MotorControl.h"
 #include "MovingBase.h"
 
+/*
+ * This is the entry point of the firmware.
+ * When the Arduino is powered this code runs. It follows the conventions
+ * of the Arduino IDE, but is crosscompiled using AVR Dude and CMake.
+ */
+
 using namespace SOFT561::Arduino;
 
+// declare variables globally (as to conform with standard)
+// classes used my the firmware
 Motor* motor_A;
 Motor* motor_B;
 Encoder* encoder_A;
@@ -19,14 +33,19 @@ MotorControl* driver_A;
 MotorControl* driver_B;
 MovingBase* base;
 
+// a lambda function to subscribe to the movement topic
+// this wraps a classes member function
+// @move_cmd -- the message
 void lambdaCallback(const geometry_msgs::Twist& move_cmd)
 {
  base->cmdVelCallback(move_cmd);
 }
 
+//declare ROS variabes
 ros::NodeHandle nh;
 ros::Subscriber<geometry_msgs::Twist> sub("/cmd_vel", &lambdaCallback);
 
+//initialize variables in an arduino conform way
 void setup()
 {
 	motor_A = new Motor(
@@ -45,12 +64,13 @@ void setup()
 	driver_B = new MotorControl(motor_B, encoder_B);
 	base = new MovingBase(driver_A,driver_B);
 
-	nh.initNode();
-	nh.subscribe(sub);
-  
-	pinMode(LED, OUTPUT);
+        nh.initNode();
+        nh.subscribe(sub);
 }
 
+// main loop as per arduino specification
+// update the motor drivers and watchdog
+// also check if the timeout value has changed and update accordingly
 void loop()
 {
     //update all devices
@@ -58,4 +78,9 @@ void loop()
     driver_A->update();
     driver_B->update();
     base->updateWatchdog();
+
+    // syncronize watchdog with Parameter Server
+    int timeout;
+    nh.getParam("/watchdog_cycles",&timeout,1);
+    base->setTimeout(timeout);
 }

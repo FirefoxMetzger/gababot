@@ -1,3 +1,9 @@
+/*
+ * Author: Sebastian Wallkoetter
+ * Email: sebastian@wallkoetter.net
+ * License: MIT
+ */
+
 #ifndef SOFT651_Arduino_MotorControl
 #define SOFT651_Arduino_MotorControl
 
@@ -10,6 +16,11 @@ namespace Arduino
 {
 class MotorControl
 {
+  /*
+   * A controller for a motor. It sets speed (using the Motor class) and reads
+   * out the encoder to ensure that the desired speed is kept.
+   */
+   
   private:
 	const bool _shared_objects;
 	Motor* _motor;
@@ -29,11 +40,16 @@ class MotorControl
 	MotorControl(Motor* motor, Encoder* encoder);
 	~MotorControl();
 
+    // update loop for the controller. compute the next raw speed values given
+    // the encoder measurement and the desired speed
 	void update();
+	
+	// set the desired speed
+	// @speed -- the desired speed
 	void setSpeed(int speed);
 
+    // get the desired speed
 	int getSpeed();
-	
 };
 }
 }

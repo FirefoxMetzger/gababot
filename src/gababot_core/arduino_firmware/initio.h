@@ -1,3 +1,9 @@
+/*
+ * Author: Sebastian Wallkoetter
+ * Email: sebastian@wallkoetter.net
+ * License: MIT
+ */
+
 // special pins for the arduino and initio buggy
 
 // special ports used by the arduino
