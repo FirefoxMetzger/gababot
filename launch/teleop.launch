@@ -1,0 +1,5 @@
+<launch>
+	<include file="/home/firefoxmetzger/Documents/gababot/launch/jake.launch"></include>
+	<node name="rosbridge" pkg="rosbridge_server" type="rosbridge_websocket">
+	</node>
+</launch>

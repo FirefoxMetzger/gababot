@@ -1,0 +1,5 @@
+<launch>
+	<machine name="PI" address="gababot.ddns.net" env-loader="~/env.sh" user="pi">
+	</machine>
+	<machine name="server" address="ros-master.ddns.net" env-loader="/opt/ros/kinetic/env.sh" />
+</launch>

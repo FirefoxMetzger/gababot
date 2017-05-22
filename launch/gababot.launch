@@ -1,0 +1,6 @@
+<launch>
+	<include file="$(env GABABOT_HOME)launch/distributed.launch"></include>
+	<!--<include file="$(env GABABOT_HOME)launch/serial.launch"></include>-->
+	<include file="$(env GABABOT_HOME)launch/camera.launch"></include>
+	<include file="$(env GABABOT_HOME)launch/teleop.launch"></include>
+</launch>

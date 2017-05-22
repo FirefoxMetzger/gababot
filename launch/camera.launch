@@ -1,0 +1,9 @@
+<launch>
+	<node machine="PI"  name="cv_camera" pkg="cv_camera" type="cv_camera_node" respawn="true">
+		<param name="device_id" value="0"></param>
+		<param name="image_width" value="1600"></param>
+		<param name="image_height" value="1200"></param>
+	</node>
+	<node machine="PI" ns="cv_camera" name="image_proc" pkg="image_proc" type="image_proc">
+	</node>
+</launch>

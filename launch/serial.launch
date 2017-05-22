@@ -1,0 +1,5 @@
+<launch>
+	<param name="watchdog_cycles" value="1000"></param>
+	<node machine="PI" name="gababot" pkg="rosserial_python" type="serial_node.py" args="/dev/ttyACM0">
+	</node>
+</launch>
