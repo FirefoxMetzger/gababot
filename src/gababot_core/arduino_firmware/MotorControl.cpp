@@ -90,6 +90,11 @@ void MotorControl::setSpeed(int speed)
   }
 }
 
+int MotorControl::getSpeed()
+{
+    return this->_current_speed;
+}
+
 }
 }
 

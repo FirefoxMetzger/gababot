@@ -48,7 +48,7 @@ class MotorControl
 	// @speed -- the desired speed
 	void setSpeed(int speed);
 
-    // get the desired speed
+    // get the current speed
 	int getSpeed();
 };
 }
