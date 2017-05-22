@@ -16,7 +16,7 @@ ros::NodeHandle ns("~");
 // get an instance of the converter
 SOFT561::JAKE::TwistKeyboardCallback *converter = 
 	new SOFT561::JAKE::TwistKeyboardCallback(ns);
-ros::Rate loop_rate(25);
+ros::Rate loop_rate(10);
 
 while (ros::ok())
 {
