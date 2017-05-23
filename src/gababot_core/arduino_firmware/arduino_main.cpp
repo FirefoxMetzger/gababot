@@ -80,7 +80,7 @@ void loop()
     base->updateWatchdog();
 
     // syncronize watchdog with Parameter Server
-    int timeout;
-    nh.getParam("/watchdog_cycles",&timeout,1);
-    base->setTimeout(timeout);
+    //int timeout;
+    //nh.getParam("/watchdog_cycles",&timeout,1);
+    base->setTimeout(2000);
 }
